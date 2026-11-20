@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SMART Library | Manage Fine</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrapper" style="min-height: 100vh;">
+    <nav id="sidebar" style="min-height: 100vh; display: flex; flex-direction: column;">
+        <div class="sidebar-header pl-4 pt-4">
+            <h4>SMART LIBRARY</h4>
+        </div>
+
+        <ul class="list-unstyled components">
+            <li><a href="adminDashboard.html">Dashboard</a></li>
+            <li><a href="borrowManagement.html">Book Request</a></li>
+            <li><a href="bookInventory.html">Book Inventory</a></li>
+            <li><a href="borrowList.html">Borrow List</a></li>
+            <li><a href="manageFine.html">Manage Fine</a></li>
+            <li><a href="profile.html">Profile</a></li>
+            <li class="active"><a href="manageLibrarian.html">Manage Librarian</a></li>
+        </ul>
+
+        <div class="mt-auto pl-4 pt-5 pb-4">
+             <a href="logout.html" id="logoutBtn">Log Out</a>
+        </div>
+    </nav>
+
+    <div id="content">
+
+        <div class="top-navbar mb-4">
+            <div class="d-flex align-items-center">
+                <button type="button" id="sidebarCollapse" class="btn btn-info mr-3">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h3 class="m-0 text-dark">SMART Library System</h3>
+            </div>
+        </div>
+
+        <div class="text-center mb-4">
+            <h3 class="font-weight-bold">Manage Librarian</h3>
+        </div>
+
+        <div class="content-box p-4" style="background-color: #a8d0db; border-radius: 15px;">
+
+            <div class="d-flex justify-content-between mb-3">
+                <h5 class="align-self-center">Librarian List</h5>
+                <button class="btn btn-primary shadow-sm" onclick="goToAdd()">
+                    <i class="fas fa-plus-circle"></i> Add Librarian
+                </button>
+            </div>
+
+            <div class="bg-white p-3 shadow-sm" style="border-radius: 10px;">
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Librarian ID</th>
+                            <th>Librarian Name</th>
+                            <th>Contact</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+
+                    <!-- ✅ JS will inject rows here -->
+                    <tbody id="librarianTableBody"></tbody>
+                </table>
+
+                <!-- optional empty state -->
+                <div id="emptyLibState" class="text-center text-muted py-3 d-none">
+                    No librarians found.
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/manageLibrarian.js"></script>
+
+</body>
+</html>

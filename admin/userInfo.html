@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>SMART Library | User Profile</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Profile page specific enhancements */
+        .profile-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #dcecef 0%, #c2e0e6 100%);
+        }
+        
+        .profile-card {
+            background-color: #b0d4d9;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .profile-header {
+            background: linear-gradient(90deg, #1a2350 0%, #2a3a80 100%);
+            color: white;
+            padding: 25px 40px;
+            position: relative;
+        }
+        
+        .profile-header h3 {
+            font-weight: 700;
+            margin: 0;
+            letter-spacing: 1px;
+        }
+        
+        .profile-icon {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            opacity: 0.3;
+        }
+        
+        .profile-body {
+            padding: 40px;
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .form-group-custom {
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group-custom:hover {
+            transform: translateY(-2px);
+        }
+        
+        .form-label {
+            color: #1a2350;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        
+        .form-value {
+            background: white;
+            border: 2px solid #e0f0f3;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 1.05rem;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+        
+        .form-value:focus {
+            border-color: #5cb3ff;
+            box-shadow: 0 0 0 0.2rem rgba(92, 179, 255, 0.25);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-profile {
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            min-width: 150px;
+        }
+        
+        .btn-back {
+            background: #6c757d;
+            color: white;
+            border: 2px solid #6c757d;
+        }
+        
+        .btn-back:hover {
+            background: #5a6268;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-edit {
+            background: #17a2b8;
+            color: white;
+            border: 2px solid #17a2b8;
+        }
+        
+        .btn-edit:hover {
+            background: #138496;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-delete {
+            background: #ff4d4d;
+            color: white;
+            border: 2px solid #ff4d4d;
+        }
+        
+        .btn-delete:hover {
+            background: #e04343;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px;
+            }
+            
+            .profile-header {
+                padding: 20px;
+                text-align: center;
+            }
+            
+            .profile-icon {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin-top: 10px;
+            }
+            
+            .profile-body {
+                padding: 25px;
+            }
+            
+            .info-card {
+                padding: 20px;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn-profile {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <div class="profile-card">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <h3><i class="fas fa-user-circle mr-3"></i>USER PROFILE</h3>
+            <div class="profile-icon">
+                <i class="fas fa-user-tie"></i>
+            </div>
+        </div>
+        
+        <!-- Profile Body -->
+        <div class="profile-body">
+            <div class="info-card">
+                <form>
+                    <div class="row">
+                        <!-- Left Column -->
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label class="form-label">User ID:</label>
+                                <input type="text" id="userId" class="form-control form-value" disabled>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label">First Name:</label>
+                                <input type="text" id="firstName" class="form-control form-value" disabled>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label">Last Name:</label>
+                                <input type="text" id="lastName" class="form-control form-value" disabled>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Column -->
+                        <div class="col-md-6">
+                            <div class="form-group-custom">
+                                <label class="form-label">Gender:</label>
+                                <input type="text" id="gender" class="form-control form-value"  disabled>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label">Contact Number:</label>
+                                <input type="text" id="contact" class="form-control form-value" disabled>
+                            </div>
+                            
+                            <div class="form-group-custom">
+                                <label class="form-label">Email Address:</label>
+                                <input type="email" id="email" class="form-control form-value" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Additional Info Section -->
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5 class="mb-4" style="color: #1a2350; border-bottom: 2px solid #1a2350; padding-bottom: 8px;">
+                                <i class="fas fa-book-reader mr-2"></i>Library Activity
+                            </h5>
+                        </div>
+                        
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="stat-card-small" style="background: #e3f2fd; padding: 15px; border-radius: 10px;">
+                                <h4 class="mb-1" id="borrowCount" style="color: #1a2350;">0</h4>
+                                <p class="mb-0" style="color: #666;">Books Borrowed</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="stat-card-small" style="background: #e8f5e9; padding: 15px; border-radius: 10px;">
+                                <h4 class="mb-1" id="favCount" style="color: #1a2350;">0</h4>
+                                <p class="mb-0" style="color: #666;">Favorites</p>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 text-center mb-3">
+                            <div class="stat-card-small" style="background: #fff3e0; padding: 15px; border-radius: 10px;">
+                                <h4 class="mb-1" id="pendingCount" style="color: #1a2350;">0</h4>
+                                <p class="mb-0" style="color: #666;">Pending Requests</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <a href="adminDashboard.html" class="btn btn-profile btn-back">
+                            <i class="fas fa-arrow-left mr-2"></i> Go Back
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/userInfo.js"></script>
+
+</body>
+</html>

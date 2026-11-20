@@ -1,0 +1,297 @@
+/* style.css - Matches SMART Library System Design */
+:root {
+    --bg-color: #dcecef;      /* The light grey-blue background seen in screenshots */
+    --card-bg: #b0d4d9;       /* The teal color of the inner cards/forms */
+    --header-bg: #1a2350;     /* Dark blue for Login header */
+    --btn-primary: #5cb3ff;   /* Bright blue buttons */
+    --btn-danger: #ff4d4d;    /* Red delete buttons */
+    --sidebar-bg: #dcecef;    /* Sidebar matches background */
+    --text-color: #333;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    margin: 0;
+    padding: 0;
+}
+
+/* --- Login Page Specifics --- */
+.login-container {
+    width: 500px;
+    margin: 100px auto;
+    background-color: var(--card-bg); /* Teal background */
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.login-header {
+    background-color: var(--header-bg);
+    color: white;
+    padding: 30px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.login-body {
+    padding: 40px;
+}
+
+.form-control-custom {
+    border: none;
+    border-radius: 2px;
+    padding: 15px;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #666;
+}
+
+/* --- Dashboard & Internal Pages Layout --- */
+.wrapper {
+    display: flex;
+    width: 100%;
+}
+
+/* Sidebar */
+#sidebar {
+    width: 250px;
+    min-height: 100vh;
+    background: var(--sidebar-bg);
+    color: #333;
+    padding-top: 20px;
+}
+
+#sidebar .components {
+    padding: 20px 0;
+}
+
+#sidebar ul li a {
+    padding: 15px 30px;
+    font-size: 1.1em;
+    display: block;
+    color: #333;
+    text-decoration: none;
+}
+
+#sidebar ul li a:hover, #sidebar ul li.active a {
+    background: rgba(0,0,0,0.05);
+    font-weight: bold;
+}
+
+/* Main Content */
+#content {
+    width: 100%;
+    padding: 40px;
+    background-color: #eef5f6;
+}
+
+/* Top Navbar */
+.top-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    color: #555;
+}
+
+.top-navbar h2 {
+    font-weight: bold;
+}
+
+/* Dashboard Cards (Stats) */
+.stat-card {
+    background-color: var(--card-bg);
+    padding: 30px 20px;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.stat-card h3 {
+    font-size: 36px;
+    margin: 10px 0 0 0;
+    font-weight: bold;
+}
+
+.stat-card p {
+    margin: 0;
+    font-size: 16px;
+    color: #333;
+}
+
+/* Blue Action Container (Quick Actions, Tables) */
+.content-box {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+}
+
+/* Custom Buttons */
+.btn-custom {
+    background-color: var(--btn-primary);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-custom:hover {
+    background-color: #4da3ef;
+    text-decoration: none;
+    color: white;
+}
+
+/* Forms (Add Book, Profile) */
+.form-row-custom {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-row-custom label {
+    width: 150px;
+    font-weight: 500;
+}
+
+.form-row-custom input, .form-row-custom select, .form-row-custom textarea {
+    flex: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 2px;
+}
+
+/* Tables */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th, .custom-table td {
+    padding: 15px;
+    text-align: center;
+}
+
+.custom-table thead {
+    border-bottom: 2px solid #000;
+}
+
+.custom-table tbody tr {
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+/* --- Wrapper (Holds Sidebar + Content) --- */
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+/* --- Sidebar Styling --- */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    background: #dcecef; /* Teal Sidebar Background */
+    color: #333;
+    transition: all 0.3s;
+    min-height: 100vh;
+}
+
+/* Sidebar Animation */
+#sidebar {
+    min-width: 250px;
+    max-width: 250px;
+    transition: all 0.3s;
+}
+
+/* This class hides the sidebar (moves it off-screen) */
+#sidebar.active {
+    margin-left: -250px;
+}
+
+/* Make the button look clickable */
+#sidebarCollapse {
+    cursor: pointer;
+}
+
+/* --- Content Area --- */
+#content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+    transition: all 0.3s;
+}
+
+/* --- Navbar Toggle Button --- */
+#sidebarCollapse {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+        body {
+            background-color: #dcecef;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logout-card {
+            background-color: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+        }
+        .icon-box {
+            color: #17a2b8; /* Teal color */
+            margin-bottom: 20px;
+        }
+
+        /* ✅ Borrow Management date filters */
+.bm-filters{
+  display:flex;
+  align-items:flex-end;
+  justify-content:flex-end;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.bm-filter{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:160px;
+}
+
+.bm-filter label{
+  font-size: 0.85rem;
+  font-weight: 600;
+  color:#2a3444;
+}
+
+.bm-clear-btn{
+  height: calc(1.8125rem + 2px); /* matches form-control-sm height in BS4 */
+}
+/* group From + To together */
+.bm-date-group{
+  display:flex;
+  align-items:flex-end;
+  gap:10px;
+}

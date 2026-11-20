@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SMART Library | User Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  
+</head>
+
+<body class="dashboard-body">
+  <!-- NAVBAR -->
+  <header class="top-nav">
+    <div class="nav-inner dashboard-nav">
+
+      <!-- LEFT: Logo + SMART Library -->
+      <div class="nav-brand d-flex align-items-center">
+        <div class="hero-icon index-icon me-2">
+          <img src="../assets/icons/logo.png" alt="Logo">
+        </div>
+        <span class="fw-semibold">SMART Library</span>
+      </div>
+
+      <!-- RIGHT: User Info + Logout -->
+      <div class="dashboard-user ms-auto d-flex align-items-center">
+        <div class="text-end me-3">
+          <div class="dashboard-user-name" id="navUserName"></div>
+          <div class="dashboard-user-email" id="navUserEmail"></div>
+        </div>
+
+        <a href="#" id="logoutBtn" class="btn btn-outline-secondary btn-sm">
+          <i class="bi bi-box-arrow-right me-1"></i> Logout
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+
+  <main class="dashboard-wrapper">
+
+    <!-- SUMMARY CARDS -->
+    <section class="row g-3 mb-4">
+      <div class="col-md-3">
+        <div class="summary-card">
+          <div class="summary-icon bg-summary-blue">
+            <img src="../assets/icons/library.png" alt="Books" class="icon-img">
+          </div>
+          <div class="summary-label">Available Books</div>
+          <div class="summary-value" id="sumAvailable"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="summary-card">
+          <div class="summary-icon bg-summary-purple">
+            <img src="../assets/icons/library-1.png" alt="Books" class="icon-img">
+          </div>
+          <div class="summary-label">Currently Borrowed</div>
+          <div class="summary-value" id="sumBorrowed"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="summary-card">
+          <div class="summary-icon bg-summary-red">
+            <img src="../assets/icons/library-2.png" alt="Books" class="icon-img">
+          </div>
+          <div class="summary-label">Overdue Books</div>
+          <div class="summary-value" id="sumOverdue"></div>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="summary-card">
+          <div class="summary-icon bg-summary-gold">
+            <img src="../assets/icons/library-3.png" alt="Books" class="icon-img">
+          </div>
+          <div class="summary-label">Current Fines</div>
+          <div class="summary-value" id="sumFines"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TABS -->
+    <section class="dashboard-tabs mb-3">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a href="user_home.html" class="nav-link active">Browse</a>
+        </li>
+        <li class="nav-item">
+          <a href="recommendation.html" class="nav-link">AI Picks</a>
+        </li>
+        <li class="nav-item">
+          <a href="borrow.html" class="nav-link">My Books</a>
+        </li>
+        <li class="nav-item">
+          <a href="requests.html" class="nav-link">Requests</a>
+        </li>
+        <li class="nav-item">
+          <a href="fines.html" class="nav-link">Fines</a>
+        </li>
+        <li class="nav-item">
+          <a href="user_profile.html" class="nav-link">Profile</a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- SEARCH + FILTER -->
+    <section class="book-filters mb-3">
+      <div class="row g-2 align-items-center">
+        <div class="col-md-8">
+          <div class="input-group search-input-group">
+            <span id="searchIcon" class="input-group-text"><i class="bi bi-search"></i></span>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search by title or author...">
+          </div>
+        </div>
+
+        <div class="col-md-4 text-md-end">
+          <select id="genreFilter" class="form-select filter-select">
+            <option>All Genres</option>
+            <option>Fiction</option>
+            <option>Non-Fiction</option>
+            <option>Science</option>
+            <option>Fantasy</option>
+            <option>Mystery</option>
+            <option>Biography</option>
+            <option>Science Fiction</option>
+            <option>Finance</option>
+            <option>Others</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- BOOK LIST -->
+    <section class="book-list" id="bookList">
+
+    </section>
+  </main>
+
+  <!-- BORROW (Bootstrap) -->
+  <div class="modal fade" id="borrowModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content border-0 rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title">Borrow Book</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body pt-2">
+          <div class="row g-3">
+            <div class="col-md-4">
+              <img id="modalBookCover" src="" alt="Book cover" class="img-fluid rounded-3">
+            </div>
+            <div class="col-md-8">
+              <h5 id="modalBookTitle" class="mb-0"></h5>
+              <div id="modalBookAuthor" class="text-muted mb-2"></div>
+
+              <span id="modalGenreTag" class="badge rounded-pill bg-light text-primary mb-2"></span>
+
+              <div class="small text-muted mb-2">
+                <span id="modalYear"></span>
+              </div>
+
+              <div class="small mb-1">
+                <div>Publisher: <span id="modalPublisher"></span></div>
+                <div>ISBN: <span id="modalIsbn"></span></div>
+              </div>
+
+              <div class="small mb-2">
+                Available Copies:
+                <span id="modalAvailable" class="fw-semibold text-success"></span>
+              </div>
+
+
+              <div class="mb-2">
+                  <label for="borrowPeriodSelect" class="form-label small mb-1">Borrow Period</label>
+                  <div id="borrowPeriodSelect" class="small fw-semibold">
+                    14 days
+                  </div>
+                </div>
+
+              <div class="alert alert-warning py-2 small mb-2">
+                Late returns will incur a fine of <strong>RM1.00</strong> per day past the due date.
+              </div>
+
+              <div class="small fw-semibold mb-1">Description</div>
+              <p id="modalDescription" class="small mb-0"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0">
+          <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary btn-sm" id="borrowConfirmBtn">Confirm Borrow</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SCRIPTS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="../assets/js/user_home.js"></script>
+  <script src="../assets/js/borrow.js"></script>
+  <script src="../assets/js/public.js"></script>
+  <script src="../assets/js/summary-cards.js"></script>
+
+</body>
+</html>

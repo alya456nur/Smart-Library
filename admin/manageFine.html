@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>SMART Library | Manage Fine</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+
+  <!-- ✅ Select2 (searchable dropdown) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css">
+
+  <style>
+    .receipt-box {
+      border: 2px dashed #333;
+      padding: 20px;
+      background-color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printSection, #printSection * { visibility: visible; }
+      #printSection { position: absolute; left: 0; top: 0; width: 100%; }
+      .modal-footer { display: none; }
+    }
+
+    .filter-label { font-weight: 700; font-size: 0.9rem; }
+
+    /* ✅ Scrollable table container */
+    .table-scroll {
+      max-height: 430px;
+      overflow-y: auto;
+      overflow-x: auto;
+    }
+    .table-scroll thead th {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      background: #f8f9fa;
+    }
+
+    /* ✅ Select2 look better with bootstrap */
+    .select2-container--default .select2-selection--single {
+      height: calc(2.25rem + 2px);
+      padding: .375rem .75rem;
+      border: 1px solid #ced4da;
+      border-radius: .25rem;
+      display: flex;
+      align-items: center;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+      height: calc(2.25rem + 2px);
+      right: 6px;
+    }
+    .select2-container { width: 100% !important; }
+
+    /* ===== Responsive Layout Fixes ===== */
+    @media (max-width: 768px) {
+      #content { padding: 15px !important; }
+      .content-box { padding: 15px !important; }
+    }
+
+    /* Sidebar behavior: auto-hide on small screens */
+    @media (max-width: 992px) {
+      #sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 1050;
+        height: 100vh;
+        overflow-y: auto;
+        transform: translateX(-100%);
+      }
+      #sidebar.active {
+        transform: translateX(0);
+        margin-left: 0 !important;
+      }
+    }
+
+    /* Table scroll height smaller on phones */
+    @media (max-width: 576px) {
+      .table-scroll { max-height: 320px; }
+    }
+
+    /* Bootstrap 4 doesn't have w-md-auto */
+    @media (min-width: 768px) {
+      .w-md-auto { width: auto !important; }
+    }
+  </style>
+</head>
+
+<body>
+<div class="wrapper" style="min-height: 100vh;">
+  <nav id="sidebar" style="min-height: 100vh; display: flex; flex-direction: column;">
+    <div class="sidebar-header pl-4 pt-4">
+      <h4>SMART LIBRARY</h4>
+    </div>
+
+    <ul class="list-unstyled components">
+      <li><a href="adminDashboard.html">Dashboard</a></li>
+      <li><a href="borrowManagement.html">Book Request</a></li>
+      <li><a href="bookInventory.html">Book Inventory</a></li>
+      <li><a href="borrowList.html">Borrow List</a></li>
+      <li class="active"><a href="manageFine.html">Manage Fine</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="manageLibrarian.html">Manage Librarian</a></li>
+    </ul>
+
+    <div class="mt-auto pl-4 pt-5 pb-4">
+      <a href="logout.html" id="logoutBtn">Log Out</a>
+    </div>
+  </nav>
+
+  <div id="content">
+    <div class="top-navbar mb-4">
+      <div class="d-flex align-items-center">
+        <button type="button" id="sidebarCollapse" class="btn btn-info mr-3">
+          <i class="fas fa-bars"></i>
+        </button>
+        <h3 class="m-0 text-dark">SMART Library System</h3>
+      </div>
+    </div>
+
+    <div class="text-center mb-4">
+      <h3 class="font-weight-bold">Manage Fine</h3>
+    </div>
+
+    <div class="content-box p-4" style="background-color: #a8d0db; border-radius: 15px;">
+      <!-- ✅ Responsive header row -->
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-3">
+        <h5 class="mb-2 mb-md-0">All Fines</h5>
+        <button class="btn btn-primary shadow-sm w-100 w-md-auto" data-toggle="modal" data-target="#issueFineModal">
+          <i class="fas fa-plus-circle"></i> Issue New Fine
+        </button>
+      </div>
+
+      <!-- ✅ Filters (Responsive) -->
+      <div class="bg-white p-3 shadow-sm mb-3" style="border-radius: 10px;">
+        <div class="form-row">
+          <div class="form-group col-12 col-md-6 col-lg-3">
+            <label class="filter-label" for="statusFilter">Fine Status</label>
+            <select id="statusFilter" class="form-control">
+              <option value="All" selected>All</option>
+              <option value="Unpaid">Unpaid</option>
+              <option value="Paid">Paid</option>
+            </select>
+          </div>
+
+          <div class="form-group col-12 col-md-6 col-lg-3">
+            <label class="filter-label" for="reasonFilter">Reason</label>
+            <select id="reasonFilter" class="form-control">
+              <option value="All" selected>All</option>
+              <option value="Book Damaged">Book Damaged</option>
+              <option value="Book Lost">Book Lost</option>
+              <option value="Late Return">Late Return</option>
+            </select>
+          </div>
+
+          <div class="form-group col-12 col-md-6 col-lg-3">
+            <label class="filter-label" for="dateFrom">Issued Date From</label>
+            <input type="date" id="dateFrom" class="form-control">
+          </div>
+
+          <div class="form-group col-12 col-md-6 col-lg-3">
+            <label class="filter-label" for="dateTo">Issued Date To</label>
+            <input type="date" id="dateTo" class="form-control">
+          </div>
+
+          <!-- Buttons row -->
+          <div class="form-group col-12">
+            <div class="d-flex flex-column flex-md-row justify-content-end">
+              <button class="btn btn-primary mb-2 mb-md-0 mr-md-2" id="applyFilterBtn">
+                <i class="fas fa-filter"></i> Apply
+              </button>
+              <button class="btn btn-secondary" id="resetFilterBtn">
+                Reset
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-white p-3 shadow-sm" style="border-radius: 10px;">
+        <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center mb-2">
+          <small class="text-muted mb-2 mb-sm-0" id="resultCount">Loading...</small>
+          <button class="btn btn-sm btn-outline-dark" id="refreshBtn">
+            <i class="fas fa-sync-alt"></i> Refresh
+          </button>
+        </div>
+
+        <!-- ✅ Responsive table wrapper -->
+        <div class="table-responsive table-scroll">
+          <table class="table table-hover mb-0">
+            <thead class="thead-light">
+              <tr>
+                <th>Fine ID</th>
+                <th>User</th>
+                <th>Book</th>
+                <th>Reason</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Issued Date</th>
+                <th class="text-center" style="width: 170px;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="fineTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ======================= ISSUE FINE MODAL ======================= -->
+<div class="modal fade" id="issueFineModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title"><i class="fas fa-file-invoice-dollar"></i> Issue New Fine</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label>Borrow ID (Searchable)</label>
+            <select id="issueBorrowId" class="form-control"></select>
+            <small class="text-muted">Type to search BORROW_ID</small>
+          </div>
+
+          <div class="form-group">
+            <label>User ID (Auto from Borrow)</label>
+            <select id="issueUserId" class="form-control" disabled></select>
+          </div>
+
+          <div class="form-group">
+            <label>Reason</label>
+            <select id="issueReason" class="form-control">
+              <option value="Book Damaged">Book Damaged</option>
+              <option value="Book Lost">Book Lost</option>
+              <option value="Late Return">Late Return</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Fine Amount (RM)</label>
+            <input type="number" id="issueAmount" class="form-control" placeholder="0.00" step="0.01" min="0" />
+          </div>
+
+          <div class="alert alert-info py-2 mb-0">
+            <small>
+              <strong>Note:</strong> Pay Method is selected when you click <strong>Pay</strong> from the table.
+            </small>
+          </div>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="confirmIssueBtn">Confirm Issue</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= PAY MODAL ======================= -->
+<div class="modal fade" id="payModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-success text-white">
+        <h5 class="modal-title"><i class="fas fa-money-bill-wave"></i> Pay Fine</h5>
+        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p class="mb-2">Fine ID: <strong id="payFineIdLabel">-</strong></p>
+
+        <div class="form-group">
+          <label>Payment Method</label>
+          <select id="payMethodSelect" class="form-control">
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+            <option value="Online Banking">Online Banking</option>
+          </select>
+        </div>
+
+        <div class="alert alert-warning py-2 mb-0">
+          <small>This will mark the fine as <strong>Paid</strong> and generate a receipt.</small>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-success" id="confirmPayBtn">
+          Confirm Pay
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ======================= PRINT MODAL ======================= -->
+<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="printTitle">Print Preview</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body" id="printSection">
+        <div class="receipt-box text-center">
+          <h4>SMART LIBRARY</h4>
+          <p id="receiptSubtitle">Official Fine Receipt</p>
+          <hr>
+
+          <div class="text-left mt-3">
+            <p><strong>Receipt ID:</strong> <span id="r_receiptId">-</span></p>
+            <p><strong>Fine ID:</strong> <span id="r_fineId">-</span></p>
+            <p><strong>Paid Date:</strong> <span id="r_paidDate">-</span></p>
+            <p><strong>Payment Method:</strong> <span id="r_payMethod">-</span></p>
+            <hr>
+            <p><strong>User:</strong> <span id="r_user">-</span></p>
+            <p><strong>Book:</strong> <span id="r_book">-</span></p>
+            <p><strong>Reason:</strong> <span id="r_reason">-</span></p>
+            <p><strong>Issued Date:</strong> <span id="r_issuedDate">-</span></p>
+            <hr>
+            <div class="d-flex justify-content-between">
+              <h5>TOTAL:</h5>
+              <h5 id="r_amount">RM0.00</h5>
+            </div>
+          </div>
+
+          <hr>
+          <p class="small mt-4">Thank you for using Smart Library.</p>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-info" onclick="window.print()">
+          <i class="fas fa-print"></i> Print Now
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+<!-- ✅ Select2 -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<script src="../assets/js/script.js"></script>
+<script src="../assets/js/manageFine.js"></script>
+
+<!-- ✅ Optional: fix select2 width when modal opens (prevents "ruin" inside modal) -->
+<script>
+  $('#issueFineModal').on('shown.bs.modal', function () {
+    $('#issueBorrowId').css('width', '100%');
+  });
+</script>
+</body>
+</html>
