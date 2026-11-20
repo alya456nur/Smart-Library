@@ -102,7 +102,7 @@ git clone https://github.com/alya456nur/Smart-Library.git
 Navigate to the project directory:
 
 ```bash
-cd smart-library-management-system
+cd smart-library
 ```
 
 ### 2. Set Up the Database
