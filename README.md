@@ -96,7 +96,7 @@ Make sure you have installed:
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/smart-library-management-system.git
+git clone https://github.com/alya456nur/Smart-Library.git
 ```
 
 Navigate to the project directory:
