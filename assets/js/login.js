@@ -201,16 +201,3 @@ async function keepSessionAlive() {
     console.error('Keep-alive failed:', error);
   }
 }
-
-// Start keep-alive every 10 minutes after login
-if (data.user) {
-  localStorage.setItem('user', JSON.stringify(data.user));
-  sessionStorage.setItem('loggedIn', 'true');
-  
-  // Start keep-alive interval
-  setInterval(keepSessionAlive, 10 * 60 * 1000);
-  
-  setTimeout(() => {
-    window.location.href = data.redirectTo || 'user_home.html';
-  }, 1000);
-}
